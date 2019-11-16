@@ -62,6 +62,7 @@ export default {
                 start_date: '',
                 due_date: '',
             };
+            this.errors = [];
         },
 
         async getTasks() {
