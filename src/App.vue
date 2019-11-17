@@ -17,6 +17,7 @@
                     :meta="meta"
                     @edit:task="editTask"
                     @delete:task="deleteTask"
+                    @complete:task="completeTask"
                 ></tasks>
             </div>
         </div>
@@ -79,17 +80,20 @@ export default {
         async saveTask(task) {
             const url = task._id ? `tasks/${task._id}` : 'tasks';
             const method = task._id ? 'PUT' : 'POST';
+            // prettier-ignore
+            const fields = [
+                'title',
+                'priority',
+                'completed',
+                'start_date',
+                'due_date',
+            ];
 
             try {
                 await axios({
                     url,
                     method,
-                    // prettier-ignore
-                    data: pick(
-                        task,
-                        /* eslint-disable-next-line comma-dangle */
-                        ['title', 'priority', 'start_date', 'due_date']
-                    ),
+                    data: pick(task, fields),
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -126,6 +130,10 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+
+        completeTask(task) {
+            this.saveTask({ ...task, completed: !task.completed });
         },
     },
 };

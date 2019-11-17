@@ -1,6 +1,6 @@
 <template>
     <p v-if="tasks.length === 0">No tasks available</p>
-    <table v-else class="table is-striped is-fullwidth">
+    <table v-else class="table is-striped is-fullwidth is-narrow">
         <thead>
             <tr>
                 <th>Task</th>
@@ -16,6 +16,9 @@
             <tr
                 v-for="task in tasks"
                 :key="task._id"
+                :class="{
+                    'is-selected': task.completed
+                }"
             >
                 <td>{{ task.title }}</td>
                 <td>{{ task.priority | ucfirst }}</td>
@@ -78,6 +81,10 @@ export default {
 </script>
 
 <style scoped>
+tr.is-selected td {
+    text-decoration: line-through;
+}
+
 button {
     margin-right: 0.5em;
 }

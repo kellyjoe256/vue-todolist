@@ -48,7 +48,8 @@
                     :class="{ 'is-danger': hasError('start_date') }"
                     type="text"
                     id="start_date"
-                    placeholder="YYYY-MM-DD or 20th December 2017"
+                    pattern="\d{4}-\d{2}-\d{2}"
+                    placeholder="YYYY-MM-DD"
                 />
                 <p
                     v-if="hasError('start_date')"
@@ -65,7 +66,8 @@
                     :class="{ 'is-danger': hasError('due_date') }"
                     type="text"
                     id="due_date"
-                    placeholder="YYYY-MM-DD or 25th December 2017"
+                    pattern="\d{4}-\d{2}-\d{2}"
+                    placeholder="YYYY-MM-DD"
                 />
                 <p
                     v-if="hasError('due_date')"
@@ -85,8 +87,6 @@
 </template>
 
 <script>
-import moment from 'moment';
-
 export default {
     name: 'task-form',
     props: {
@@ -101,12 +101,11 @@ export default {
     },
     data() {
         return {
-            // form: { ...this.task },
             priorityOptions: {
+                '': 'Select Priority',
                 low: 'Low',
                 medium: 'Medium',
                 high: 'High',
-                '': 'Select Priority',
             },
         };
     },
@@ -137,11 +136,6 @@ export default {
             }
 
             return '';
-        },
-    },
-    filters: {
-        formatDate(value) {
-            return value ? moment(value).format('L') : value;
         },
     },
 };
