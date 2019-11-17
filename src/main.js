@@ -7,6 +7,9 @@ axios.defaults.headers.common.Accept = 'application/json';
 
 Vue.config.productionTip = false;
 
+/* eslint-disable-next-line */
+export const eventBus = new Vue();
+
 new Vue({
     render: (h) => h(App),
 }).$mount('#app');

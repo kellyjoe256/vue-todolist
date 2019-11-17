@@ -28,6 +28,8 @@
 import axios from 'axios';
 import moment from 'moment';
 import pick from 'lodash.pick';
+/* eslint-disable import/no-cycle */
+import { eventBus } from './main';
 import Tasks from './components/Tasks.vue';
 import TaskForm from './components/TaskForm.vue';
 
@@ -53,6 +55,10 @@ export default {
         };
     },
     created() {
+        eventBus.$on('changeToPage', (page) => {
+            this.getTasks(page);
+        });
+
         this.getTasks();
     },
     methods: {
@@ -66,9 +72,11 @@ export default {
             this.errors = [];
         },
 
-        async getTasks() {
+        async getTasks(page = 1) {
+            const url = `tasks?page=${page}`;
+
             try {
-                const { data } = await axios.get('tasks');
+                const { data } = await axios.get(url);
 
                 this.meta = data.meta;
                 this.tasks = data.data;
