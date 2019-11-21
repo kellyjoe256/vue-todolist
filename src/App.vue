@@ -52,14 +52,39 @@ export default {
             },
             tasks: [],
             errors: [],
+            queryParams: {
+                page: 1, // initially set by backend
+                perPage: 5, // initially set by backend
+                search: '',
+            },
         };
     },
     created() {
+        eventBus.$on('search', (searchQuery) => {
+            this.setQueryParam('page', 1);
+            this.setQueryParam('search', searchQuery);
+        });
+
+        eventBus.$on('changeLimit', (limit) => {
+            this.setQueryParam('page', 1);
+            this.setQueryParam('perPage', limit);
+        });
+
         eventBus.$on('changeToPage', (page) => {
-            this.getTasks(page);
+            this.setQueryParam('page', page);
         });
 
         this.getTasks();
+    },
+    watch: {
+        queryParams: {
+            deep: true,
+            // eslint-disable-next-line
+            handler: function(newValue, oldValue) {
+                // console.log(newValue, oldValue);
+                this.getTasks();
+            },
+        },
     },
     methods: {
         clearForm() {
@@ -72,8 +97,13 @@ export default {
             this.errors = [];
         },
 
-        async getTasks(page = 1) {
-            const url = `tasks?page=${page}`;
+        async getTasks() {
+            let url = 'tasks';
+            const query = this.parseQueryParams();
+
+            if (query) {
+                url = `${url}?${query}`;
+            }
 
             try {
                 const { data } = await axios.get(url);
@@ -142,6 +172,24 @@ export default {
 
         completeTask(task) {
             this.saveTask({ ...task, completed: !task.completed });
+        },
+
+        setQueryParam(field, value) {
+            this.queryParams[field] = value;
+        },
+
+        parseQueryParams() {
+            let output = '';
+
+            Object.entries(this.queryParams).forEach((entry) => {
+                const [key, value] = entry;
+
+                if (value) {
+                    output += output ? `&${key}=${value}` : `${key}=${value}`;
+                }
+            });
+
+            return output;
         },
     },
 };
