@@ -4,6 +4,10 @@ This is the vue frontend for the backend todolist api that I created.
 
 You can get the backend code from [here](https://github.com/kellyjoe256/node-todolist-app).
 
+## Demo
+
+Check it out [here](https://kellyjoe256.github.io/vue-todolist/).
+
 ## Getting it to work
 
 ### Backend
