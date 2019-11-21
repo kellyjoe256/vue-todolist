@@ -1,24 +1,18 @@
-# vue-todolist
+# Vue Todolist
 
-## Project setup
-```
-npm install
-```
+This is the vue frontend for the backend todolist api that I created.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+You can get the backend code from [here](https://github.com/kellyjoe256/node-todolist-app).
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Getting it to work
 
-### Lints and fixes files
-```
-npm run lint
-```
+### Backend
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+* Download the backend code files from the link above and then run `npm install` but make sure you have MongoDB installed(For more on that checkout [this](https://docs.mongodb.com/manual/administration/install-community/) out).
+
+* Run `node index.js`
+
+### Frontend
+* Run `npm install`
+* Then `npm run serve`
+
